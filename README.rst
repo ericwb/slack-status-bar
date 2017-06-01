@@ -5,7 +5,9 @@ Slack Status Bar
 Install the dependencies
 ------------------------
 
-pip install -r requirements.txt
+.. code-block:: bash
+
+    pip install -r requirements.txt
 
 
 Configure settings
