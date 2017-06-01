@@ -1,0 +1,26 @@
+---
+
+# Obtain a token using the instructions found here:
+# https://api.slack.com/custom-integrations/legacy-tokens
+token:
+
+# Wireless SSID for your work location. Used to detect whether working
+# remotely. Any value other than the following is considered remote to work.
+work_ssid: vmware
+
+# List of iCal calendar names that represent work events. This is used to
+# determine the "In Meeting" status.
+work_calendars:
+  - Work
+
+# List of iCal calendar names that represent vacation events. This is used to
+# determine the "Vacationing" status.
+vacation_calendars:
+  - Vacation
+
+# Whether or not to include meeting titles in the status text. This affects
+# the "In a Meeting" and "Vacationing" statuses.
+meeting_title: true
+
+# Whether or not debug mode is on.
+debug: false
