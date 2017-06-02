@@ -228,8 +228,6 @@ def main():
             print(exc)
             return
 
-    rumps.alert(title='Error', message='test test test')
-
     # Load the WLAN framework
     objc.loadBundle(
         'CoreWLAN',
