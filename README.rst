@@ -18,8 +18,21 @@ Configure settings
 - Enter your work wireless SSID
 - Enter names for your work and vacation calendars
 
-To run
-------
+To run in application mode
+--------------------------
+
+Run the following command to build the application into alias mode.
+
+.. code-block:: bash
+
+    python setup.py py2app -A
+
+Then run the following to start the application
+
+    open dist/status.app
+    
+To run in developer mode
+------------------------
 
 Running from the command line
 
