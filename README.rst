@@ -29,6 +29,8 @@ Run the following command to build the application into alias mode.
 
 Then run the following to start the application
 
+.. code-block:: bash
+
     open dist/status.app
     
 To run in developer mode
