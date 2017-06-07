@@ -15,7 +15,7 @@ based on information from the user's calendars and Wireless SSID in use. It
 only works on Mac OSX and is only effective for user's that use Mac's default
 calendar application and wireless for networking.
 
-Currently the app can detect 4 types of statues
+Currently the app can detect 4 types of statuses
 
 - Vacationing - scans the vacation calendar for events for the current time
 - In a Meeting -  scans the work calendar for events for the current time
