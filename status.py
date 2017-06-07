@@ -8,6 +8,7 @@ import yaml
 from CalendarStore import CalCalendarStore
 from CalendarStore import NSDate
 import objc
+import Quartz
 import requests
 import rumps
 
@@ -106,6 +107,13 @@ class SlackStatusBarApp(rumps.App):
                 self.set_remote(None)
             break
 
+        # Check if screen is locked or asleep
+        session = Quartz.CGSessionCopyCurrentDictionary()
+        if session and session.get('CGSSessionScreenIsLocked', 0):
+            self.set_presence_away(None)
+        else:
+            self.set_presence_auto(None)
+
     def _send_slack_status(self, status_text, status_emoji):
         url = 'https://slack.com/api/users.profile.set'
         profile = {'status_text': status_text, 'status_emoji': status_emoji}
@@ -119,10 +127,7 @@ class SlackStatusBarApp(rumps.App):
         sender.state = not sender.state
         if sender.state:
             # Turning auto mode ON
-            url = 'https://slack.com/api/users.setPresence'
-            payload = {'token': self.config['token'], 'presence': 'auto'}
-            r = requests.get(url, params=payload)
-            print(r.text)
+            self.set_presence_auto(sender)
 
             # Disable all callbacks (grays out menu items)
             for key, menu_item in self.menu.iteritems():
@@ -162,7 +167,7 @@ class SlackStatusBarApp(rumps.App):
                 elif key == WORKING_REMOTELY:
                     menu_item.set_callback(self.set_remote)
                 elif key == AWAY:
-                    menu_item.set_callback(self.set_away)
+                    menu_item.set_callback(self.set_presence_away)
 
     def unset_status(self, sender):
         self._send_slack_status('', '')
@@ -190,7 +195,13 @@ class SlackStatusBarApp(rumps.App):
     def set_remote(self, sender):
         self._send_slack_status(WORKING_REMOTELY, ':house_with_garden:')
 
-    def set_away(self, sender):
+    def set_presence_auto(self, sender):
+        url = 'https://slack.com/api/users.setPresence'
+        payload = {'token': self.config['token'], 'presence': 'auto'}
+        r = requests.get(url, params=payload)
+        print(r.text)
+
+    def set_presence_away(self, sender):
         url = 'https://slack.com/api/users.setPresence'
         payload = {'token': self.config['token'], 'presence': 'away'}
         r = requests.get(url, params=payload)
