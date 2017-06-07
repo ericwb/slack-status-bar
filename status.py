@@ -104,7 +104,7 @@ class SlackStatusBarApp(rumps.App):
             if interface.ssid() == self.config['work_ssid']:
                 self.unset_status(None)
             else:
-                self.set_remote(None)
+                self.set_remote(None, interface.ssid())
             break
 
         # Check if screen is locked or asleep
@@ -192,7 +192,14 @@ class SlackStatusBarApp(rumps.App):
             status_text = VACATIONING
         self._send_slack_status(status_text, ':palm_tree:')
 
-    def set_remote(self, sender):
+    def set_remote(self, sender, ssid=None):
+        if ssid and 'remote_locations' in self.config:
+            for location in self.config['remote_locations']:
+                if location['ssid'] == ssid:
+                    self._send_slack_status(location['status_text'],
+                                            location['status_emoji'])
+                    return
+        
         self._send_slack_status(WORKING_REMOTELY, ':house_with_garden:')
 
     def set_presence_auto(self, sender):

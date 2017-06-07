@@ -22,5 +22,19 @@ vacation_calendars:
 # the "In a Meeting" and "Vacationing" statuses.
 meeting_title: true
 
+# This list of dictionaries can be configured with various remote work
+# locations. For example, if you're working from Starbucks, you could
+# automatically set the status text and emoji to something Starbucks-ish.
+# Keep in mind, that the emoji given must be part of the emoji set of your
+# Slack team.
+remote_locations:
+  - ssid: Home
+    status_text: Working from Home
+    status_emoji: ":house_with_garden:"
+
+  - ssid: Google Starbucks
+    status_text: Working from Starbucks
+    status_emoji: ":starbucks:"
+
 # Whether or not debug mode is on.
 debug: false

@@ -42,6 +42,7 @@ Configure settings
 - Enter the token for your Slack user
 - Enter your work wireless SSID
 - Enter names for your work and vacation calendars
+- Optionally you may want to edit some of the other settings
 
 To run in application mode
 --------------------------
