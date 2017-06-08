@@ -3,7 +3,6 @@ import json
 import os
 import signal
 import sys
-import yaml
 
 from CalendarStore import CalCalendarStore
 from CalendarStore import NSDate
@@ -11,6 +10,7 @@ import objc
 import Quartz
 import requests
 import rumps
+import yaml
 
 
 APP_TITLE = 'Slack Status'
