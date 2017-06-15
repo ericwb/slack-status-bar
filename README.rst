@@ -38,7 +38,7 @@ Run the following command to build the application into alias mode.
 Configure settings
 ------------------
 
-- Edit /Users/<username>/Library/Application Support/Slack Status/config.yaml
+- Edit ~/Library/Application Support/Slack Status/config.yaml
 - Enter the token for your Slack user
 - Enter your work wireless SSID
 - Enter names for your work and vacation calendars
