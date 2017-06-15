@@ -12,7 +12,7 @@ it can discern.
 
 This status bar automatically (or manually) updates a user's Slack status
 based on information from the user's calendars and Wireless SSID in use. It
-only works on Mac OSX and is only effective for user's that use Mac's default
+only works on Mac OS X and is only effective for users that use Mac's default
 calendar application and wireless for networking.
 
 Currently the app can detect 4 types of statuses
