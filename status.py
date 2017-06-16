@@ -14,6 +14,7 @@ import yaml
 
 
 APP_TITLE = 'Slack Status'
+LOCATION = 'Location'
 AUTO = 'Auto'
 IN_MEETING = 'In a Meeting'
 COMMUTING = 'Commuting'
@@ -21,7 +22,6 @@ OUT_SICK = 'Out Sick'
 VACATIONING = 'Vacationing'
 WORKING_REMOTELY = 'Working Remotely'
 AWAY = 'Away'
-DO_NOT_DISTURB = 'Do Not Disturb'
 PREFERENCES = 'Preferences'
 
 
@@ -32,10 +32,16 @@ class SlackStatusBarApp(rumps.App):
         self.config = config
 
         menu_items = []
+
+        location_menu_item = rumps.MenuItem(LOCATION)
+        location_menu_item.set_callback(self.no_op_callback)
+        menu_items.append(location_menu_item)
+
+        menu_items.append(None)
+
         auto_menu_item = rumps.MenuItem(AUTO)
         auto_menu_item.state = True
         menu_items.append(auto_menu_item)
-        menu_items.append(None)
 
         meeting_menu = rumps.MenuItem(IN_MEETING)
         meeting_menu.icon = os.path.join('icons', 'spiral_calendar_pad.png')
@@ -57,14 +63,9 @@ class SlackStatusBarApp(rumps.App):
         remote_menu.icon = os.path.join('icons', 'house_with_garden.png')
         menu_items.append(remote_menu)
 
-        menu_items.append(None)
-
         away_menu = rumps.MenuItem(AWAY)
         away_menu.icon = os.path.join('icons', 'large_red_circle.png')
         menu_items.append(away_menu)
-
-        dnd_menu = rumps.MenuItem(DO_NOT_DISTURB)
-        menu_items.append(dnd_menu)
 
         menu_items.append(None)
 
@@ -73,6 +74,9 @@ class SlackStatusBarApp(rumps.App):
 
         for menu_item in menu_items:
             self.menu.add(copy.copy(menu_item))
+
+    def no_op_callback(self, sender):
+        pass
 
     @rumps.timer(60)
     def _check_status(self, sender):
@@ -171,6 +175,7 @@ class SlackStatusBarApp(rumps.App):
 
     def unset_status(self, sender):
         self._send_slack_status('', '')
+        self.set_location('Work')
 
     def set_meeting(self, sender, meeting_title):
         if self.config['meeting_title'] is True:
@@ -198,6 +203,7 @@ class SlackStatusBarApp(rumps.App):
                 if location['ssid'] == ssid:
                     self._send_slack_status(location['status_text'],
                                             location['status_emoji'])
+                    self.set_location(location['location'])
                     return
         
         self._send_slack_status(WORKING_REMOTELY, ':house_with_garden:')
@@ -214,10 +220,6 @@ class SlackStatusBarApp(rumps.App):
         r = requests.get(url, params=payload)
         print(r.text)
 
-    def set_dnd(self, sender):
-        # TODO
-        pass
-
     @rumps.clicked(PREFERENCES)
     def preferences(self, sender):
         default_text = ''
@@ -229,6 +231,11 @@ class SlackStatusBarApp(rumps.App):
         response = pref_window.run()
         if response.clicked and response.text:
             self.config['token'] = response.text
+
+    def set_location(self, location):
+        for key, menu_item in self.menu.iteritems():
+            if key == LOCATION:
+                menu_item.title = LOCATION + ': ' + location
 
 
 def _signal_handler(signal, frame):

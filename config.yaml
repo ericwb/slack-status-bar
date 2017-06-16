@@ -29,10 +29,12 @@ meeting_title: true
 # Slack team.
 remote_locations:
   - ssid: Home
+    location: Home
     status_text: Working from Home
     status_emoji: ":house_with_garden:"
 
   - ssid: Google Starbucks
+    location: Starbucks
     status_text: Working from Starbucks
     status_emoji: ":starbucks:"
 
