@@ -6,6 +6,7 @@ import sys
 
 from CalendarStore import CalCalendarStore
 from CalendarStore import NSDate
+import CoreWLAN
 import objc
 import Quartz
 import requests
@@ -103,8 +104,8 @@ class SlackStatusBarApp(rumps.App):
                     return
 
         # Check if working remotely
-        for if_name in CWInterface.interfaceNames():
-            interface = CWInterface.interfaceWithName_(if_name)
+        wifi_client = CoreWLAN.CWWiFiClient.sharedWiFiClient()
+        for interface in wifi_client.interfaces():
             if interface.ssid() == self.config['work_ssid']:
                 self.unset_status(None)
             else:
@@ -252,12 +253,6 @@ def main():
         except yaml.YAMLError as exc:
             print(exc)
             return
-
-    # Load the WLAN framework
-    objc.loadBundle(
-        'CoreWLAN',
-        bundle_path='/System/Library/Frameworks/CoreWLAN.framework',
-        module_globals=globals())
 
     # Setup our CTRL+C signal handler
     signal.signal(signal.SIGINT, _signal_handler)
