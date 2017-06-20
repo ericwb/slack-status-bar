@@ -206,8 +206,8 @@ class SlackStatusBarApp(rumps.App):
                                             location['status_emoji'])
                     self.set_location(location['location'])
                     return
-        
         self._send_slack_status(WORKING_REMOTELY, ':house_with_garden:')
+        self.set_location('Unknown')
 
     def set_presence_auto(self, sender):
         url = 'https://slack.com/api/users.setPresence'
