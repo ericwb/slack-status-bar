@@ -1,6 +1,9 @@
 Slack Status Bar
 ================
 
+.. image:: https://travis-ci.org/ericwb/slack-status-bar.svg?branch=master
+    :target: https://travis-ci.org/ericwb/slack-status-bar
+
 Overview
 --------
 
