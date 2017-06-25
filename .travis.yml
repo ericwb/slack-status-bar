@@ -5,7 +5,7 @@ language: generic
 
 before_install:
   - brew update
-  - brew install python
+  - brew upgrade python
   - virtualenv env -p python
   - source env/bin/activate
 
