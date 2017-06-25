@@ -1,10 +1,13 @@
-os:
-  - osx
+os: osx
 osx_image: xcode8.1
 
-language: python
-python:
-  - '2.7'
+language: generic
+
+before_install:
+  - brew update
+  - brew install python
+  - virtualenv env -p python
+  - source env/bin/activate
 
 # command to install dependencies
 install:
