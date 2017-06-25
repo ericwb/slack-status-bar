@@ -1,0 +1,5 @@
+discover
+hacking
+mock
+testtools
+coverage

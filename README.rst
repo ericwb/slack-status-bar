@@ -51,7 +51,7 @@ Run the following to start the application
 
 .. code-block:: bash
 
-    open dist/status.app
+    open dist/Slack\ Status.app
 
 To run in developer mode
 ------------------------

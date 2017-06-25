@@ -7,7 +7,6 @@ import sys
 from CalendarStore import CalCalendarStore
 from CalendarStore import NSDate
 import CoreWLAN
-import objc
 import Quartz
 import requests
 import rumps
@@ -87,8 +86,9 @@ class SlackStatusBarApp(rumps.App):
 
         for calendar in store.calendars():
             if calendar._.title in self.config['vacation_calendars']:
-                pred = CalCalendarStore.eventPredicateWithStartDate_endDate_calendars_(
-                    NSDate.date(), NSDate.date(), [calendar])
+                pred = CalCalendarStore.\
+                    eventPredicateWithStartDate_endDate_calendars_(
+                        NSDate.date(), NSDate.date(), [calendar])
                 event = store.eventsWithPredicate_(pred)
                 if event:
                     self.set_vacation(None, event._.title[0])
@@ -97,8 +97,9 @@ class SlackStatusBarApp(rumps.App):
         # Check if in a meeting
         for calendar in store.calendars():
             if calendar._.title in self.config['work_calendars']:
-                pred = CalCalendarStore.eventPredicateWithStartDate_endDate_calendars_(
-                    NSDate.date(), NSDate.date(), [calendar])
+                pred = CalCalendarStore.\
+                    eventPredicateWithStartDate_endDate_calendars_(
+                        NSDate.date(), NSDate.date(), [calendar])
                 event = store.eventsWithPredicate_(pred)
                 if event:
                     self.set_meeting(None, event._.title[0])
