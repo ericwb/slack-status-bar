@@ -15,6 +15,7 @@ import yaml
 
 
 APP_TITLE = 'Slack Status'
+APP_ICON = 'Slack_Icon.icns'
 LOCATION = 'Location'
 AUTO = 'Auto'
 IN_MEETING = 'In a Meeting'
@@ -29,7 +30,7 @@ PREFERENCES = 'Preferences'
 class SlackStatusBarApp(rumps.App):
     def __init__(self, config):
         super(SlackStatusBarApp, self).__init__(
-            APP_TITLE, icon=os.path.join('icons', 'Slack_Icon.icns'))
+            APP_TITLE, icon=os.path.join('icons', APP_ICON))
         self.config = config
 
         menu_items = []
@@ -228,7 +229,7 @@ class SlackStatusBarApp(rumps.App):
             default_text = self.config['token']
         pref_window = rumps.Window(message='Enter token:',
                                    default_text=default_text, cancel=True)
-        pref_window.icon = os.path.join('icons', 'Slack_Icon.png')
+        pref_window.icon = os.path.join('icons', APP_ICON)
         response = pref_window.run()
         if response.clicked and response.text:
             self.config['token'] = response.text
