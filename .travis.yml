@@ -1,3 +1,7 @@
+os:
+  - osx
+osx_image: xcode8.1
+
 language: python
 python:
   - '2.7'
