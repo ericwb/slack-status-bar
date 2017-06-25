@@ -6,8 +6,8 @@ language: generic
 before_install:
   - brew update
   - brew upgrade python
-  - virtualenv env -p python
-  - source env/bin/activate
+  - virtualenv .tox
+  - source .tox/bin/activate
 
 # command to install dependencies
 install:
