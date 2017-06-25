@@ -29,7 +29,7 @@ PREFERENCES = 'Preferences'
 class SlackStatusBarApp(rumps.App):
     def __init__(self, config):
         super(SlackStatusBarApp, self).__init__(
-            APP_TITLE, icon=os.path.join('icons', 'Slack_Icon.png'))
+            APP_TITLE, icon=os.path.join('icons', 'Slack_Icon.icns'))
         self.config = config
 
         menu_items = []
