@@ -25,5 +25,5 @@ setup(
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
-    setup_requires=['py2app', 'pyobjc', 'PyYAML', 'requests', 'rumps'],
+    setup_requires=['py2app', 'PyYAML', 'requests'],
 )
