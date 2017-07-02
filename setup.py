@@ -1,9 +1,9 @@
 import os
 
-import setuptools
+from setuptools import find_packages
+from setuptools import setup
 
 
-APP = ['status.py']
 DATA_FILES = []
 OPTIONS = {
     'argv_emulation': True,
@@ -15,17 +15,25 @@ OPTIONS = {
         'CFBundleVersion': '1',
         'LSMinimumSystemVersion': '10.12',
         'LSUIElement': True,
-        'NSHumanReadableCopyright': ('Copyright (c) 2017 Eric Brown. All '
-                                     'rights reserved.'),
+        'NSHumanReadableCopyright': ('Copyright (c) 2017 Eric Brown. '
+                                     'All rights reserved.'),
     },
     'packages': ['rumps'],
 }
 
 
-setuptools.setup(
-    app=APP,
+setup(
+    name='SlackStatus',
+    version='1.0',
+    app=['main.py'],
+    author='Eric Brown',
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
-    packages=setuptools.find_packages(),
-    setup_requires=['py2app'],
+    packages=find_packages(),
+    setup_requires=[
+        'py2app',
+        'pyobjc-framework-CalendarStore',
+        'pyobjc-framework-CoreWLAN',
+        'pyobjc-framework-Quartz',
+    ],
 )
