@@ -1,5 +1,6 @@
 import os
-from setuptools import setup
+
+import setuptools
 
 
 APP = ['status.py']
@@ -21,9 +22,10 @@ OPTIONS = {
 }
 
 
-setup(
+setuptools.setup(
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
-    setup_requires=['py2app', 'PyYAML', 'requests'],
+    packages=setuptools.find_packages(),
+    setup_requires=['py2app'],
 )
