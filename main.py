@@ -128,9 +128,11 @@ class SlackStatusBarApp(rumps.App):
                    'profile': json.dumps(profile)}
         try:
             r = requests.get(url, params=payload)
-            print(r.text)
+            if self.config['debug']:
+                print(r.text)
         except requests.exceptions.ConnectionError as err:
-            print('ConnectionError: %s' % err.message)
+            if self.config['debug']:
+                print('ConnectionError: %s' % err.message)
 
     @rumps.clicked(AUTO)
     def set_auto(self, sender):
@@ -219,18 +221,22 @@ class SlackStatusBarApp(rumps.App):
         payload = {'token': self.config['token'], 'presence': 'auto'}
         try:
             r = requests.get(url, params=payload)
-            print(r.text)
+            if self.config['debug']:
+                print(r.text)
         except requests.exceptions.ConnectionError as err:
-            print('ConnectionError: %s' % err.message)
+            if self.config['debug']:
+                print('ConnectionError: %s' % err.message)
 
     def set_presence_away(self, sender):
         url = 'https://slack.com/api/users.setPresence'
         payload = {'token': self.config['token'], 'presence': 'away'}
         try:
             r = requests.get(url, params=payload)
-            print(r.text)
+            if self.config['debug']:
+                print(r.text)
         except requests.exceptions.ConnectionError as err:
-            print('ConnectionError: %s' % err.message)
+            if self.config['debug']:
+                print('ConnectionError: %s' % err.message)
 
     @rumps.clicked(PREFERENCES)
     def preferences(self, sender):
