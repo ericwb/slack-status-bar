@@ -231,7 +231,7 @@ class SlackStatusBarApp(rumps.App):
             print(r.text)
         except requests.exceptions.ConnectionError as err:
             print('ConnectionError: %s' % err.message)
-    
+
     @rumps.clicked(PREFERENCES)
     def preferences(self, sender):
         default_text = ''
