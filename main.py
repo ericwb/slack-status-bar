@@ -107,11 +107,12 @@ class SlackStatusBarApp(rumps.App):
         # Check if working remotely
         wifi_client = CoreWLAN.CWWiFiClient.sharedWiFiClient()
         for interface in wifi_client.interfaces():
-            if interface.ssid() == self.config['work_ssid']:
-                self.unset_status(None)
-            else:
-                self.set_remote(None, interface.ssid())
-            break
+            if interface.ssid() is not None:
+                if interface.ssid() == self.config['work_ssid']:
+                    self.unset_status(None)
+                else:
+                    self.set_remote(None, interface.ssid())
+                break
 
         # Check if screen is locked or asleep
         session = Quartz.CGSessionCopyCurrentDictionary()
@@ -125,8 +126,11 @@ class SlackStatusBarApp(rumps.App):
         profile = {'status_text': status_text, 'status_emoji': status_emoji}
         payload = {'token': self.config['token'],
                    'profile': json.dumps(profile)}
-        r = requests.get(url, params=payload)
-        print(r.text)
+        try:
+            r = requests.get(url, params=payload)
+            print(r.text)
+        except requests.exceptions.ConnectionError as err:
+            print('ConnectionError: %s' % err.message)
 
     @rumps.clicked(AUTO)
     def set_auto(self, sender):
@@ -213,15 +217,21 @@ class SlackStatusBarApp(rumps.App):
     def set_presence_auto(self, sender):
         url = 'https://slack.com/api/users.setPresence'
         payload = {'token': self.config['token'], 'presence': 'auto'}
-        r = requests.get(url, params=payload)
-        print(r.text)
+        try:
+            r = requests.get(url, params=payload)
+            print(r.text)
+        except requests.exceptions.ConnectionError as err:
+            print('ConnectionError: %s' % err.message)
 
     def set_presence_away(self, sender):
         url = 'https://slack.com/api/users.setPresence'
         payload = {'token': self.config['token'], 'presence': 'away'}
-        r = requests.get(url, params=payload)
-        print(r.text)
-
+        try:
+            r = requests.get(url, params=payload)
+            print(r.text)
+        except requests.exceptions.ConnectionError as err:
+            print('ConnectionError: %s' % err.message)
+    
     @rumps.clicked(PREFERENCES)
     def preferences(self, sender):
         default_text = ''
