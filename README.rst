@@ -67,4 +67,4 @@ Running from the command line
 
 .. code-block:: bash
 
-    python status.py
+    python main.py
