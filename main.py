@@ -31,49 +31,46 @@ class SlackStatusBarApp(rumps.App):
         super(SlackStatusBarApp, self).__init__(APP_TITLE, icon=APP_ICON)
         self.config = config
 
-        menu_items = []
+        self.location_menu_item = rumps.MenuItem(LOCATION)
+        self.location_menu_item.set_callback(self.no_op_callback)
+        self.menu.add(self.location_menu_item)
 
-        location_menu_item = rumps.MenuItem(LOCATION)
-        location_menu_item.set_callback(self.no_op_callback)
-        menu_items.append(location_menu_item)
+        self.menu.add(None)
 
-        menu_items.append(None)
+        self.auto_menu_item = rumps.MenuItem(AUTO)
+        self.auto_menu_item.state = True
+        self.menu.add(self.auto_menu_item)
 
-        auto_menu_item = rumps.MenuItem(AUTO)
-        auto_menu_item.state = True
-        menu_items.append(auto_menu_item)
+        self.meeting_menu = rumps.MenuItem(IN_MEETING)
+        self.meeting_menu.icon = os.path.join('icons',
+                                              'spiral_calendar_pad.png')
+        self.menu.add(self.meeting_menu)
 
-        meeting_menu = rumps.MenuItem(IN_MEETING)
-        meeting_menu.icon = os.path.join('icons', 'spiral_calendar_pad.png')
-        menu_items.append(meeting_menu)
+        self.commute_menu = rumps.MenuItem(COMMUTING)
+        self.commute_menu.icon = os.path.join('icons', 'bus.png')
+        self.menu.add(self.commute_menu)
 
-        commute_menu = rumps.MenuItem(COMMUTING)
-        commute_menu.icon = os.path.join('icons', 'bus.png')
-        menu_items.append(commute_menu)
+        self.sick_menu = rumps.MenuItem(OUT_SICK)
+        self.sick_menu.icon = os.path.join('icons',
+                                           'face_with_thermometer.png')
+        self.menu.add(self.sick_menu)
 
-        sick_menu = rumps.MenuItem(OUT_SICK)
-        sick_menu.icon = os.path.join('icons', 'face_with_thermometer.png')
-        menu_items.append(sick_menu)
+        self.vacation_menu = rumps.MenuItem(VACATIONING)
+        self.vacation_menu.icon = os.path.join('icons', 'palm_tree.png')
+        self.menu.add(self.vacation_menu)
 
-        vacation_menu = rumps.MenuItem(VACATIONING)
-        vacation_menu.icon = os.path.join('icons', 'palm_tree.png')
-        menu_items.append(vacation_menu)
+        self.remote_menu = rumps.MenuItem(WORKING_REMOTELY)
+        self.remote_menu.icon = os.path.join('icons', 'house_with_garden.png')
+        self.menu.add(self.remote_menu)
 
-        remote_menu = rumps.MenuItem(WORKING_REMOTELY)
-        remote_menu.icon = os.path.join('icons', 'house_with_garden.png')
-        menu_items.append(remote_menu)
+        self.away_menu = rumps.MenuItem(AWAY)
+        self.away_menu.icon = os.path.join('icons', 'large_red_circle.png')
+        self.menu.add(self.away_menu)
 
-        away_menu = rumps.MenuItem(AWAY)
-        away_menu.icon = os.path.join('icons', 'large_red_circle.png')
-        menu_items.append(away_menu)
+        self.menu.add(None)
 
-        menu_items.append(None)
-
-        pref_menu = rumps.MenuItem(PREFERENCES)
-        menu_items.append(pref_menu)
-
-        for menu_item in menu_items:
-            self.menu.add(copy.copy(menu_item))
+        self.pref_menu = rumps.MenuItem(PREFERENCES)
+        self.menu.add(self.pref_menu)
 
     def no_op_callback(self, sender):
         pass
@@ -142,19 +139,12 @@ class SlackStatusBarApp(rumps.App):
             self.set_presence_auto(sender)
 
             # Disable all callbacks (grays out menu items)
-            for key, menu_item in self.menu.iteritems():
-                if key == IN_MEETING:
-                    menu_item.set_callback(None)
-                elif key == COMMUTING:
-                    menu_item.set_callback(None)
-                elif key == OUT_SICK:
-                    menu_item.set_callback(None)
-                elif key == VACATIONING:
-                    menu_item.set_callback(None)
-                elif key == WORKING_REMOTELY:
-                    menu_item.set_callback(None)
-                elif key == AWAY:
-                    menu_item.set_callback(None)
+            self.meeting_menu.set_callback(None)
+            self.commute_menu.set_callback(None)
+            self.sick_menu.set_callback(None)
+            self.vacation_menu.set_callback(None)
+            self.remote_menu.set_callback(None)
+            self.away_menu.set_callback(None)
 
             # Enable timer
             for timer in rumps.timers():
@@ -167,25 +157,18 @@ class SlackStatusBarApp(rumps.App):
                 timer.stop()
 
             # Enable all callbacks
-            for key, menu_item in self.menu.iteritems():
-                if key == IN_MEETING:
-                    menu_item.set_callback(self.set_meeting)
-                elif key == COMMUTING:
-                    menu_item.set_callback(self.set_commute)
-                elif key == OUT_SICK:
-                    menu_item.set_callback(self.set_sick)
-                elif key == VACATIONING:
-                    menu_item.set_callback(self.set_vacation)
-                elif key == WORKING_REMOTELY:
-                    menu_item.set_callback(self.set_remote)
-                elif key == AWAY:
-                    menu_item.set_callback(self.set_presence_away)
+            self.meeting_menu.set_callback(self.set_meeting)
+            self.commute_menu.set_callback(self.set_commute)
+            self.sick_menu.set_callback(self.set_sick)
+            self.vacation_menu.set_callback(self.set_vacation)
+            self.remote_menu.set_callback(self.set_remote)
+            self.away_menu.set_callback(self.set_presence_away)
 
     def unset_status(self, sender):
         self._send_slack_status('', '')
         self.set_location('Work')
 
-    def set_meeting(self, sender, meeting_title):
+    def set_meeting(self, sender, meeting_title=''):
         if self.config['meeting_title'] is True:
             status_text = IN_MEETING + ': ' + meeting_title
         else:
@@ -198,7 +181,7 @@ class SlackStatusBarApp(rumps.App):
     def set_sick(self, sender):
         self._send_slack_status(OUT_SICK, ':face_with_thermometer:')
 
-    def set_vacation(self, sender, vacation_title):
+    def set_vacation(self, sender, vacation_title=''):
         if self.config['meeting_title'] is True:
             status_text = VACATIONING + ': ' + vacation_title
         else:
