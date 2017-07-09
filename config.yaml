@@ -33,10 +33,17 @@ remote_locations:
     status_text: Working from Home
     status_emoji: ":house_with_garden:"
 
+  # NOTE: Your Slack team needs to have an custom emoji for Starbucks
   - ssid: Google Starbucks
     location: Starbucks
     status_text: Working from Starbucks
     status_emoji: ":starbucks:"
+    
+  # NOTE: Your Slack team needs to have an custom emoji for Peets
+  - ssid: PEETS
+    location: Peet's Coffee & Tea
+    status_text: Working from Peet's Coffee & Tea
+    status_emoji: ":peets:"
 
 # Whether or not debug mode is on.
 debug: false
