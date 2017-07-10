@@ -22,7 +22,7 @@ OUT_SICK = 'Out Sick'
 VACATIONING = 'Vacationing'
 WORKING_REMOTELY = 'Working Remotely'
 AWAY = 'Away'
-PREFERENCES = 'Preferences'
+PREFERENCES = 'Preferences...'
 
 
 class SlackStatusBarApp(rumps.App):
