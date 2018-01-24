@@ -45,5 +45,11 @@ remote_locations:
     status_text: Working from Peet's Coffee & Tea
     status_emoji: ":peets:"
 
+  # NOTE: Your Slack team needs to have an custom emoji for Philz
+  - ssid: Philz Coffee
+    location: Philz Coffee
+    status_text: Working from Philz Coffee
+    status_emoji: ":philz:"
+
 # Whether or not debug mode is on.
 debug: false
