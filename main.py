@@ -220,6 +220,9 @@ class SlackStatusBarApp(rumps.App):
             if self.config['debug']:
                 print('ConnectionError: %s' % err.message)
 
+    def test_function(self):
+        print("test_function")
+    
     @rumps.clicked(PREFERENCES)
     def preferences(self, sender):
         default_text = ''
